@@ -1,0 +1,65 @@
+[
+    {
+        "zone": {
+            "name": "myfirstzone",
+            "cachecanonical": "enabled",
+            "cachecookies": "enabled",
+            "cachehostheader": "enabled",
+            "cacheignorecachecontrol": "enabled",
+            "cacheignorequerystring": "disabled",
+            "cachemaxexpire": "3600",
+            "cacherobots": "disabled",
+            "cachestripcookies": "enabled",
+            "cachexpullkey": "KeyCDN",
+            "cors": "enabled",
+            "customsslcert": "",
+            "customsslkey": "",
+            "expire": "0",
+            "forcedownload": "disabled",
+            "forcessl": "enabled",
+            "gzip": "enabled",
+            "http2": "enabled",
+            "originshield": "disabled",
+            "originurl": "http://originurl.com",
+            "securetoken": "disabled",
+            "securetokenkey": "",
+            "sslcert": "letsencrypt",
+            "status": "active",
+            "type": "pull"
+        },
+        "zonealias": {
+            "name": "domain.for.myfirstzone.com"
+        }
+    },{
+        "zone": {
+            "name": "mysecondzone",
+            "cachecanonical": "enabled",
+            "cachecookies": "enabled",
+            "cachehostheader": "disabled",
+            "cacheignorecachecontrol": "enabled",
+            "cacheignorequerystring": "disabled",
+            "cachemaxexpire": "5",
+            "cacherobots": "enabled",
+            "cachestripcookies": "enabled",
+            "cachexpullkey": "KeyCDN",
+            "cors": "enabled",
+            "customsslcert": "",
+            "customsslkey": "",
+            "expire": "43201",
+            "forcedownload": "disabled",
+            "forcessl": "enabled",
+            "gzip": "enabled",
+            "http2": "enabled",
+            "originshield": "disabled",
+            "originurl": "http://originurl.com",
+            "securetoken": "disabled",
+            "securetokenkey": "",
+            "sslcert": "letsencrypt",
+            "status": "active",
+            "type": "pull"
+        },
+        "zonealias": {
+            "name": "domain.for.mysecondzone.com"
+        }
+    }
+]

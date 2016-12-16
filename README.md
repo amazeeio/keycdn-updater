@@ -1,4 +1,4 @@
-# amazee.io KeyCDN Updater
+# KeyCDN Updater
 
 This is a small Docker based node script that updates or creates KeyCDN Zones and Zonealiases based on a given zones.json file
 
@@ -8,4 +8,4 @@ This is a small Docker based node script that updates or creates KeyCDN Zones an
 2. Get the API Key from KeyCDN
 3. Run:
 
-		docker run --rm -v myzonesfile.json:zones.json -e KEYCDN_APIKEY=YOURAPIKEY amazeeio/keycdn-updater
+		docker run --rm -v $PWD/zones.json:/app/zones.json -e KEYCDN_APIKEY=YOURAPIKEY amazeeio/keycdn-updater

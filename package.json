@@ -3,6 +3,7 @@
     "start": "node src/index.js"
   },
   "dependencies": {
-    "keycdn": "^0.2.0"
+    "keycdn": "^0.2.0",
+    "locks": "^0.2.2"
   }
 }

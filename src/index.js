@@ -4,18 +4,23 @@ if (typeof process.env.KEYCDN_APIKEY === 'undefined') {
 }
 
 var KeyCDN = require('keycdn')
+var locks = require('locks');
+
 var keycdn = new KeyCDN(process.env.KEYCDN_APIKEY)
+var mutex = locks.createMutex();
 
 // zone.json contains the zones and zonealiases that we want to create or update
 var zones = require('../zones.json')
 
-function get(type, existingZoneID) {
+function get(type) {
   return new Promise((resolve, reject) => {
     keycdn.get(`${type}.json`, function(err, result) {
       if (err) {
           reject(err)
       }
-      resolve(result)
+      setTimeout(() => {
+        resolve(result)
+      }, 500); // the KeyCDN API can handle max 2 requests per sec, so we delay the resolving by 500ms
     })
   })
 }
@@ -28,7 +33,9 @@ function put(type, existingID, object) {
       }
       console.log(`Updated ${type} Config for name '${object.name}', new config:`)
       console.log(result)
-      resolve(result)
+      setTimeout(() => {
+        resolve(result)
+      }, 500);
     })
   })
 }
@@ -41,19 +48,16 @@ function push(type, object) {
       }
       console.log(`Created ${type} Config for name '${object.name}', config:`)
       console.log(result)
-      resolve(result)
+      setTimeout(() => {
+        resolve(result)
+      }, 500);
     })
   })
 }
 
-zones.forEach((element) => {
-  var zone = element.zone
-  var zonealias = element.zonealias
-
+function updateZone(zone, zonealias) {
   var zoneid = null
-
-  // First load all existing zones from the API
-  get('zones').then(result => {
+  return get('zones').then(result => {
     // Check if one of the existing zones has already the name like the one we want to create/udpate
     var existingZoneIndex = result.data.zones.findIndex(element => {
       return element.name === zone.name
@@ -88,11 +92,23 @@ zones.forEach((element) => {
       console.log(zonealias)
       return push('zonealiases', zonealias)
     };
-  }).catch(error => {
+  }).then(()=> {
+    mutex.unlock()
+  })
+  .catch(error => {
     console.log(error)
-    process.exit(1);
+    mutex.unlock()
+    process.exit(1)
   });
+}
 
+zones.forEach((element) => {
+  var zone = element.zone
+  var zonealias = element.zonealias
+
+  mutex.lock(function () {
+    updateZone(zone, zonealias)
+  });
 })
 
 
